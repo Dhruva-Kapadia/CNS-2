@@ -1,0 +1,44 @@
+def encrypt(text, key):
+    mat = [[7,4,5,1,2,8,3,6]]
+    col = 0
+    row = []
+    result = ""
+    
+    #constructing the matrix
+    for i in text:
+        row.append(i)
+        col+=1
+        if col > 7:
+            mat.append(row)
+            row = []
+            col = 0
+    while len(row) < 8 and len(row) != 0:
+        row.append('_')
+    if len(row) != 0:
+        mat.append(row)
+    
+    #printing
+    count = 1
+    while count <= len(row):
+        for i in range(len(mat[0])):
+            if mat[0][i] == count:
+                for j in range(1, len(mat)):
+                    result += mat[j][i]
+                count+=1
+                break
+    print(result)
+    
+#def decrypt(text, key):
+#    mat = [[7],[4],[5],[1],[2],[8],[3],[6]]
+#    maxcol = len(text) % len(mat)
+#    row = 1
+#    count = 1
+#    result = ""
+#    for i in text:
+        
+
+plaintext = "pleasetransferonemilliondollarstomyswissbankaccountsixtwotwo"
+key = [7,4,5,1,2,8,3,6]
+
+mat = encrypt(plaintext, key)
+print(mat)
