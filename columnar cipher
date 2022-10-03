@@ -1,44 +1,69 @@
-def encrypt(text, key):
-    mat = [[7,4,5,1,2,8,3,6]]
-    col = 0
-    row = []
+def encrypt(text, key, file):
+
     result = ""
     
+    k_indx = 0
+
+    msg_len = len(msg)
+    msg_lst = list(msg)
+    key_lst = sorted(list(key))
+    
+    col = len(key)
+    row = int(math.ceil(msg_len / col))
+    
+    fill_null = int((row * col) - msg_len)
+    msg_lst.extend('_' * fill_null)
+    
     #constructing the matrix
-    for i in text:
-        row.append(i)
-        col+=1
-        if col > 7:
-            mat.append(row)
-            row = []
-            col = 0
-    while len(row) < 8 and len(row) != 0:
-        row.append('_')
-    if len(row) != 0:
-        mat.append(row)
+    matrix = [msg_lst[i: i + col] for i in range(0, len(msg_lst), col)]
     
-    #printing
-    count = 1
-    while count <= len(row):
-        for i in range(len(mat[0])):
-            if mat[0][i] == count:
-                for j in range(1, len(mat)):
-                    result += mat[j][i]
-                count+=1
-                break
-    print(result)
+    for _ in range(col):
+        curr_idx = key.index(key_lst[k_indx])
+        result += ''.join([row[curr_idx] for row in matrix])
+        k_indx += 1
+
+    file.write(result.upper())
     
-#def decrypt(text, key):
-#    mat = [[7],[4],[5],[1],[2],[8],[3],[6]]
-#    maxcol = len(text) % len(mat)
-#    row = 1
-#    count = 1
-#    result = ""
-#    for i in text:
+def decrypt(cipher, key, file):
+    msg = ""
+
+    k_indx = 0
+
+    msg_indx = 0
+    msg_len = float(len(cipher))
+    msg_lst = list(cipher)
+
+    col = len(key)
+    
+    row = int(math.ceil(msg_len / col))
+
+    key_lst = sorted(list(key))
+
+    dec_cipher = []
+    for _ in range(row):
+        dec_cipher += [[None] * col]
+
+    for _ in range(col):
+        curr_idx = key.index(key_lst[k_indx])
+
+        for j in range(row):
+            dec_cipher[j][curr_idx] = msg_lst[msg_indx]
+            msg_indx += 1
+        k_indx += 1
+
+    msg = ''.join(sum(dec_cipher, []))
+    file.write(msg.lower())
         
 
-plaintext = "pleasetransferonemilliondollarstomyswissbankaccountsixtwotwo"
-key = [7,4,5,1,2,8,3,6]
-
-mat = encrypt(plaintext, key)
-print(mat)
+o = int(input("1. Encryption\n2. Decryption\nEnter Choice:\n"))
+key = "COLUMN"
+if(o == 1):
+    file1 = open('plaintext.txt', 'r')
+    p = file1.read()
+    encrypt(p, key, file3)
+elif(o == 2):
+    file2 = open('encryptedtext.txt', 'w')
+    e = file2.read()
+    decrypt(e, key, file3)
+else:
+    print("invalid input")
