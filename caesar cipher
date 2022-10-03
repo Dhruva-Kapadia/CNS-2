@@ -1,6 +1,6 @@
 file3 = open('outputtext.txt', 'a')
 
-def encrypt(text,s, file):
+def encrypt(text,s):
     result = ""
     for i in range(len(text)):
         char = text[i]
@@ -8,9 +8,9 @@ def encrypt(text,s, file):
             result += chr((ord(char) + s-97) % 26 + 65)
         else:
             result += char
-    file.write(result.upper())
+    file3.write(result.upper())
 
-def decrypt(text, s, file):
+def decrypt(text, s):
     result = ""
     for i in range(len(text)):
         char = text[i]
@@ -18,17 +18,17 @@ def decrypt(text, s, file):
             result += chr((ord(char) - s-65) % 26 + 97)
         else:
             result += char
-    file.write(result.lower())
+    file3.write(result.lower())
 
 o = int(input("1. Encryption\n2. Decryption\nEnter Choice:\n"))
 key = 4
 if(o == 1):
     file1 = open('plaintext.txt', 'r')
     p = file1.read()
-    encrypt(p, key, file3)
+    encrypt(p, key)
 elif(o == 2):
     file2 = open('encryptedtext.txt', 'w')
     e = file2.read()
-    decrypt(e, key, file3)
+    decrypt(e, key)
 else:
     print("invalid input")
