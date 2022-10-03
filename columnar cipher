@@ -1,4 +1,6 @@
-def encrypt(text, key, file):
+file3 = open('outputtext.txt', 'a')
+
+def encrypt(text, key):
 
     result = ""
     
@@ -22,9 +24,9 @@ def encrypt(text, key, file):
         result += ''.join([row[curr_idx] for row in matrix])
         k_indx += 1
 
-    file.write(result.upper())
+    file3.write(result.upper())
     
-def decrypt(cipher, key, file):
+def decrypt(cipher, key):
     msg = ""
 
     k_indx = 0
@@ -52,7 +54,7 @@ def decrypt(cipher, key, file):
         k_indx += 1
 
     msg = ''.join(sum(dec_cipher, []))
-    file.write(msg.lower())
+    file3.write(msg.lower())
         
 
 o = int(input("1. Encryption\n2. Decryption\nEnter Choice:\n"))
@@ -60,10 +62,10 @@ key = "COLUMN"
 if(o == 1):
     file1 = open('plaintext.txt', 'r')
     p = file1.read()
-    encrypt(p, key, file3)
+    encrypt(p, key)
 elif(o == 2):
     file2 = open('encryptedtext.txt', 'w')
     e = file2.read()
-    decrypt(e, key, file3)
+    decrypt(e, key)
 else:
     print("invalid input")
